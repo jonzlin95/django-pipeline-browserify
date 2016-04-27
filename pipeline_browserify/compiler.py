@@ -10,15 +10,13 @@ class BrowserifyCompiler(SubProcessCompiler):
         return path.endswith('.browserify.js')
 
     def compile_file(self, infile, outfile, outdated=False, force=False):
-        if not force and not outdated:
-            # File doesn't need to be recompiled
-            return
+        # Always compile!
         pipeline_settings = getattr(settings, 'PIPELINE', {})
         command = "%s %s %s %s -o %s" % (
             pipeline_settings.get('BROWSERIFY_VARS', ''),
             pipeline_settings.get('BROWSERIFY_BINARY', '/usr/bin/env browserify'),
             pipeline_settings.get('BROWSERIFY_ARGUMENTS', ''),
-            infile,   
+            infile,
             outfile,
         )
         print('\ncommand:', command)
